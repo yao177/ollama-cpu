@@ -8,10 +8,12 @@ RUN case `uname -m` in \
         s390x) ARCH=s390x; ;; \
         *) echo "un-supported arch, exit ..."; exit 1; ;; \
     esac && \
-    wget -O - https://ollama.com/download/ollama-linux-${ARCH}.tgz |tar -xz -C /usr/local/bin --strip-components=2 ./bin/ollama
+    wget -O - https://ollama.com/download/ollama-linux-${ARCH}.tgz | tar -xz --strip 2 ./bin/ollama && \
+    mv /ollama /usr/bin/ollama && \
+    chmod +x /usr/bin/ollama
 
 ENV OLLAMA_HOST=0.0.0.0
 EXPOSE 11434
 
-ENTRYPOINT ["/usr/local/bin/ollama"]
+ENTRYPOINT ["/usr/bin/ollama"]
 CMD ["serve"]
