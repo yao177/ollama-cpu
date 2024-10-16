@@ -6,8 +6,10 @@ RUN apk add --no-cache libstdc++
 
 COPY --from=ollama /usr/bin/ollama /usr/bin/ollama
 COPY --from=ollama /usr/lib/ollama/runners/cpu /usr/lib/ollama/runners/cpu
-COPY --from=ollama /usr/lib/ollama/runners/cpu_avx /usr/lib/ollama/runners/cpu_avx
-COPY --from=ollama /usr/lib/ollama/runners/cpu_avx2 /usr/lib/ollama/runners/cpu_avx2
+
+# In arm64 ollama/ollama image, there is no avx libraries and seems they are not must-have (#2903, #3891)
+# COPY --from=ollama /usr/lib/ollama/runners/cpu_avx /usr/lib/ollama/runners/cpu_avx
+# COPY --from=ollama /usr/lib/ollama/runners/cpu_avx2 /usr/lib/ollama/runners/cpu_avx2
 
 # Environment variable setup
 ENV OLLAMA_HOST=0.0.0.0

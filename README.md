@@ -1,9 +1,10 @@
 # Minimal CPU-only Ollama Docker Image
 
-This repository provides a **minimal CPU-only Ollama Docker image**, specifically designed to run on systems without GPU support. At just **71MB**, this image is significantly smaller than the official Ollama image, which is around **4GB**.
+This repository provides a **minimal CPU-only Ollama Docker image**, specifically designed to run on systems without GPU support. At just **70MB**, this image is significantly smaller than the official Ollama image, which is around **4GB**.
 
-
-
+```
+ollama latest b99944c07117   3 hours ago    69.3MB
+```
 ## Notes
 
 * **This image is not based on alpine**, but [wolfi.dev](https://wolfi.dev/), I will work it out with alpine later
@@ -11,7 +12,7 @@ This repository provides a **minimal CPU-only Ollama Docker image**, specificall
 
 ## Why Use This Image?
 
-1. **Lightweight**: The official Ollama image is over 4GB in size, which can be overkill for systems that only need CPU-based processing. This image is only **71MB**, making it much faster to download and deploy.
+1. **Lightweight**: The official Ollama image is over 4GB in size, which can be overkill for systems that only need CPU-based processing. This image is only **70MB**, making it much faster to download and deploy.
    
 2. **CPU-only Support**: This image is tailored for systems without GPUs. It ensures you can run Ollama efficiently, even on basic or resource-constrained environments, without needing specialized hardware.
 
@@ -24,11 +25,20 @@ This repository provides a **minimal CPU-only Ollama Docker image**, specificall
 docker pull alpine/ollama
 ```
 
+* Run the service with API supported
+
+```
+docker rm -f ollama
+docker run -d -p 11434:11434 -v ~/.ollama/root/.ollama --name ollama alpine/ollama
+```
+
 * Download the models, for example, `llama3.2`, only run once. It will save the model locally, you can re-use it later.
 
 ```
-docker run -ti --rm -v ~/.ollama:/root/.ollama alpine/ollama run llama3.2
+docker exec -ti ollama ollama pull llama3.2
 ```
+
+If you don't want to download, you can choice to use `alpine/llama3.2` image directly. I create this for only llama3.2
 
 * Run the service with API supported
 
