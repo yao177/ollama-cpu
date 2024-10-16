@@ -1,20 +1,25 @@
-FROM alpine
+FROM ollama/ollama AS ollama
 
-RUN case `uname -m` in \
-        x86_64) ARCH=amd64; ;; \
-        armv7l) ARCH=arm; ;; \
-        aarch64) ARCH=arm64; ;; \
-        ppc64le) ARCH=ppc64le; ;; \
-        s390x) ARCH=s390x; ;; \
-        *) echo "un-supported arch, exit ..."; exit 1; ;; \
-    esac && \
-    wget -O - https://ollama.com/download/ollama-linux-${ARCH}.tgz | tar -xz --strip 2 ./bin/ollama && \
-    mv /ollama /usr/bin/ollama && \
-    chmod +x /usr/bin/ollama
+FROM cgr.dev/chainguard/wolfi-base
 
+RUN apk add --no-cache libstdc++
+
+COPY --from=ollama /usr/bin/ollama /usr/bin/ollama
+COPY --from=ollama /usr/lib/ollama/runners/cpu /usr/lib/ollama/runners/cpu
+COPY --from=ollama /usr/lib/ollama/runners/cpu_avx /usr/lib/ollama/runners/cpu_avx
+COPY --from=ollama /usr/lib/ollama/runners/cpu_avx2 /usr/lib/ollama/runners/cpu_avx2
+
+# Create the entrypoint script
+COPY entrypoint.sh /usr/bin/entrypoint.sh
+RUN chmod +x /usr/bin/entrypoint.sh
+
+# In this image, we download llama3.2 model directly
 RUN /usr/bin/ollama run llama3.2
 
+# Environment variable setup
 ENV OLLAMA_HOST=0.0.0.0
+
+# Expose port for the service
 EXPOSE 11434
 
 ENTRYPOINT ["/usr/bin/ollama"]
