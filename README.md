@@ -2,10 +2,12 @@
 
 This repository provides a **minimal CPU-only Ollama Docker image**, specifically designed to run on systems without GPU support. At just **71MB**, this image is significantly smaller than the official Ollama image, which is around **4GB**.
 
+
+
 ## Notes
 
-This image is not based on alpine, but [wolfi.dev](https://wolfi.dev/), I will work it out with alpine later
-Got big help from @kth8 ( https://github.com/ollama/ollama/issues/7184#issuecomment-2414823298 )
+* **This image is not based on alpine**, but [wolfi.dev](https://wolfi.dev/), I will work it out with alpine later
+* Got big help from @kth8 ( https://github.com/ollama/ollama/issues/7184#issuecomment-2414823298 )
 
 ## Why Use This Image?
 
@@ -22,10 +24,10 @@ Got big help from @kth8 ( https://github.com/ollama/ollama/issues/7184#issuecomm
 docker pull alpine/ollama
 ```
 
-* Download the models
+* Download the models, for example, `llama3.2`, only run once. It will save the model locally, you can re-use it later.
 
 ```
-docker run -ti --rm -v ~/.ollama/root/.ollama alpine/ollama run llama3.2
+docker run -ti --rm -v ~/.ollama:/root/.ollama alpine/ollama run llama3.2
 ```
 
 * Run the service with API supported
@@ -34,7 +36,7 @@ docker run -ti --rm -v ~/.ollama/root/.ollama alpine/ollama run llama3.2
 docker run -d -p 11434:11434 -v ~/.ollama/root/.ollama alpine/ollama
 ```
 
-* Test the service
+* Test its API service with curl 
 ```
 $ curl http://localhost:11434/api/generate -d '{
   "model": "llama3.2",
@@ -51,6 +53,8 @@ $ curl http://localhost:11434/api/generate -d '{
 ```
 
 If you monitor the CPU usage, for example, with [htop](https://htop.dev/), you would see the high CPU usage
+
+You can deploy the Ollama web UI to chat with it directly. There are many tools available, but I won't recommend any specific one.
 
 ## Use case
 
