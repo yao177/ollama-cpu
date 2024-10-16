@@ -9,10 +9,6 @@ COPY --from=ollama /usr/lib/ollama/runners/cpu /usr/lib/ollama/runners/cpu
 COPY --from=ollama /usr/lib/ollama/runners/cpu_avx /usr/lib/ollama/runners/cpu_avx
 COPY --from=ollama /usr/lib/ollama/runners/cpu_avx2 /usr/lib/ollama/runners/cpu_avx2
 
-# Create the entrypoint script
-COPY entrypoint.sh /usr/bin/entrypoint.sh
-RUN chmod +x /usr/bin/entrypoint.sh
-
 # Environment variable setup
 ENV OLLAMA_HOST=0.0.0.0
 
