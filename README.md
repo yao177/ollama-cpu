@@ -38,12 +38,10 @@ docker run -d -p 11434:11434 -v ~/.ollama/root/.ollama --name ollama alpine/olla
 docker exec -ti ollama ollama pull llama3.2
 ```
 
-If you don't want to download, you can choice to use `alpine/llama3.2` image directly. I create this for only llama3.2
-
-* Run the service with API supported
+If you don't want to download, you can choice to use `alpine/llama3.2` image directly. I create this with model "llama3.2" integrated already
 
 ```
-docker run -d -p 11434:11434 -v ~/.ollama/root/.ollama alpine/ollama
+docker run -d -p 11434:11434 --name llama3.2 alpine/llama3.2
 ```
 
 * Test its API service with curl 

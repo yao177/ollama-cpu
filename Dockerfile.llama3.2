@@ -13,9 +13,7 @@ COPY --from=ollama /usr/lib/ollama/runners/cpu /usr/lib/ollama/runners/cpu
 
 # In this image, we download llama3.2 model directly
 RUN /usr/bin/ollama serve & sleep 5 && \
-      /usr/bin/ollama pull llama3.2 && \
-      pkill ollama && \
-      sleep 3
+      /usr/bin/ollama pull llama3.2
 
 # Environment variable setup
 ENV OLLAMA_HOST=0.0.0.0
