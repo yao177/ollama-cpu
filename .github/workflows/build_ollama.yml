@@ -1,4 +1,4 @@
-name: ollama
+name: ollama-cpu
 
 on:
   push:
